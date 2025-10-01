@@ -1,0 +1,10 @@
+sitemap demo label="My Home Automation" {
+  Frame label="Thermometer & Humidity" {
+    Text item=VirtualThermometer icon="temperature"
+    Text item=VirtualHumidity icon="humidity"
+  }
+  Frame label="Thermometer & Humidity chart" {
+    Chart item=VirtualThermometer period=h refresh=60000
+    Chart item=VirtualHumidity period=h refresh=60000
+  }
+}

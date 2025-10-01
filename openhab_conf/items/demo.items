@@ -1,0 +1,4 @@
+Number VirtualTemperature "Віртуальна температура [%.1f °C]"
+Number VirtualHumidity "Віртуальна вологість [%d %%]"
+Switch myLightSwitch "My MQTT Light"
+Number mySensorTemperature "My MQTT Temperature [%.1f °C]"

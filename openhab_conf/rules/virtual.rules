@@ -1,0 +1,36 @@
+import java.util.Random
+
+var Timer t = null
+var double lastHumidity = 50.0
+var double lastTemperature = 20.0
+val Random rnd = new Random()
+
+rule "Update virtual values every second"
+when
+    System started
+then
+    if (t === null) {
+        t = createTimer(now, [ |
+            // Вологість
+            val double newHumidity = lastHumidity + (rnd.nextDouble() - 0.5) * 2
+            VirtualHumidity.postUpdate(Math.max(0, Math.min(100, newHumidity)))
+            lastHumidity = newHumidity
+
+            // Температура
+            val double newTemperature = lastTemperature + (rnd.nextDouble() - 0.5) * 0.5
+            VirtualTemperature.postUpdate(Math.max(-20, Math.min(40, newTemperature)))
+            lastTemperature = newTemperature
+
+            t.reschedule(now.plusSeconds(1))
+        ])
+    }
+end
+
+rule "Температура > 30°C - логування"
+when
+    Item VirtualTemperature changed
+then
+    if (VirtualTemperature.state instanceof Number && (VirtualTemperature.state as Number) > 30) {
+        logInfo("ALERT", "Температура перевищила 30°C: " + VirtualTemperature.state)
+    }
+end

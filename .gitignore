@@ -1,0 +1,5 @@
+openhab_userdata/
+mosquitto/data/
+mosquitto/log/
+mosquitto/config/*.conf
+openhab_conf/services/*.cfg

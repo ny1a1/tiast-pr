@@ -1,0 +1,11 @@
+Bridge mqtt:broker:myBroker "MQTT Broker" [ host="mosquitto", port=1883 ]
+{
+    Thing topic myLight "My MQTT Light" {
+        Channels:
+            Type switch : power "Power" [ stateTopic="home/light/power", commandTopic="home/light/power/set" ]
+    }
+    Thing topic mySensor "My MQTT Sensor" {
+        Channels:
+            Type number : temperature "Temperature" [ stateTopic="home/sensor/temperature" ]
+    }
+}
