@@ -1,4 +1,8 @@
-Number VirtualTemperature "Віртуальна температура [%.1f °C]"
-Number VirtualHumidity "Віртуальна вологість [%d %%]"
-Switch myLightSwitch "My MQTT Light"
-Number mySensorTemperature "My MQTT Temperature [%.1f °C]"
+Number LabTemperature "Температура [%.1f °C]" { channel="mqtt:topic:myBroker:labDevice:temperatureRaw" }
+Number LabHumidity "Вологість [%d %%]" { channel="mqtt:topic:myBroker:labDevice:humidityRaw" }
+Number LabTemperatureJSON "Температура JSON [%.1f °C]" { channel="mqtt:topic:myBroker:labDevice:temperatureJSON" }
+Number LabHumidityJSON "Вологість JSON [%d %%]" { channel="mqtt:topic:myBroker:labDevice:humidityJSON" }
+
+Switch LabMotion "Рух [MAP(onoff.map):%s]" { channel="mqtt:topic:myBroker:labDevice:motion", expire="10s,OFF" }
+Switch LabLampCmd "Лампа (команда)" { channel="mqtt:topic:myBroker:labDevice:lampCmd" }
+Switch LabLampState "Стан лампи" { channel="mqtt:topic:myBroker:labDevice:lampState" }

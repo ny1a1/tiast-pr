@@ -1,11 +1,13 @@
 Bridge mqtt:broker:myBroker "MQTT Broker" [ host="mosquitto", port=1883 ]
 {
-    Thing topic myLight "My MQTT Light" {
+    Thing topic labDevice "Lab Device" {
         Channels:
-            Type switch : power "Power" [ stateTopic="home/light/power", commandTopic="home/light/power/set" ]
-    }
-    Thing topic mySensor "My MQTT Sensor" {
-        Channels:
-            Type number : temperature "Temperature" [ stateTopic="home/sensor/temperature" ]
+            Type number : temperatureRaw "Temperature Raw" [ stateTopic="home/lab/temperature" ]
+            Type number : humidityRaw "Humidity Raw" [ stateTopic="home/lab/humidity" ]
+            Type number : temperatureJSON "Temperature JSON" [ stateTopic="home/lab/sensors", transformationPattern="JSONPATH:$.temperature" ]
+            Type number : humidityJSON "Humidity JSON" [ stateTopic="home/lab/sensors", transformationPattern="JSONPATH:$.humidity" ]
+            Type switch : motion "Motion" [ stateTopic="home/lab/motion" ]
+            Type switch : lampCmd "Lamp Command" [ commandTopic="home/lab/lamp/cmd" ]
+            Type switch : lampState "Lamp State" [ stateTopic="home/lab/lamp/state" ]
     }
 }
