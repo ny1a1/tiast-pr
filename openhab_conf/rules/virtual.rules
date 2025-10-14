@@ -3,9 +3,10 @@ import java.util.Random
 var Timer t = null
 var double lastHumidity = 50.0
 var double lastTemperature = 20.0
+var Timer autoOffTimer = null
 val Random rnd = new Random()
 
-rule "Update virtual values every second"
+rule "Update Lab virtual values every second"
 when
     System started
 then
@@ -13,12 +14,12 @@ then
         t = createTimer(now, [ |
             // Вологість
             val double newHumidity = lastHumidity + (rnd.nextDouble() - 0.5) * 2
-            VirtualHumidity.postUpdate(Math.max(0, Math.min(100, newHumidity)))
+            LabHumidity.postUpdate(Math.max(0, Math.min(100, newHumidity)))
             lastHumidity = newHumidity
 
             // Температура
             val double newTemperature = lastTemperature + (rnd.nextDouble() - 0.5) * 0.5
-            VirtualTemperature.postUpdate(Math.max(-20, Math.min(40, newTemperature)))
+            LabTemperature.postUpdate(Math.max(-20, Math.min(40, newTemperature)))
             lastTemperature = newTemperature
 
             t.reschedule(now.plusSeconds(1))
@@ -32,5 +33,29 @@ when
 then
     if (VirtualTemperature.state instanceof Number && (VirtualTemperature.state as Number) > 30) {
         logInfo("ALERT", "Температура перевищила 30°C: " + VirtualTemperature.state)
+    }
+end
+
+rule "Lamp ON when motion detected and temperature < 20°C"
+when
+    Item LabMotion changed to ON
+then
+    val Number currentTemp = if (LabTemperatureJSON.state != NULL) (LabTemperatureJSON.state as Number) else (LabTemperature.state as Number)
+
+    if (currentTemp != NULL && currentTemp < 20) {
+        LabLampCmd.sendCommand(ON)
+        logInfo("lab", "Лампа увімкнена через рух при низькій температурі")
+
+        // Таймер на 30 секунд для вимкнення
+        if (autoOffTimer !== null) {
+            autoOffTimer.cancel()
+            autoOffTimer = null
+        }
+        autoOffTimer = createTimer(now.plusSeconds(30)) [|
+            if (LabMotion.state == OFF) {
+                LabLampCmd.sendCommand(OFF)
+                logInfo("lab", "Лампа вимкнена через 30 секунд без руху")
+            }
+        ]
     }
 end

@@ -8,22 +8,22 @@ async function getCurrentItemValue(itemName) {
     return data.state;
 }
 
-// Оновити стан Number Item
-function updateItemState(itemName, value) {
-    fetch(`${BASE_URL}/rest/items/${itemName}/state`, {
+// Відправити команду Item (ON/OFF)
+async function sendCommand(itemName, command) {
+    const response = await fetch(`${BASE_URL}/rest/items/${itemName}/state`, {
         method: 'PUT',
         headers: {'Content-Type': 'text/plain'},
-        body: value.toString()
-    }).then(r => {
-        if (!r.ok) throw new Error('Network response was not ok');
-    }).catch(e => console.error('Помилка відправки команди:', e));
+        body: command
+    });
+    if (!response.ok) throw new Error('Network response was not ok');
 }
 
 // Оновлення стану на сторінці
 async function updateStates() {
     try {
-        const temp = await getCurrentItemValue('VirtualTemperature');
-        const humidity = await getCurrentItemValue('VirtualHumidity');
+        const temp = await getCurrentItemValue('LabTemperature');
+        const humidity = await getCurrentItemValue('LabHumidity');
+        const lampState = await getCurrentItemValue('LabLampState');
 
         const tempElem = document.querySelector('#temperature span');
         if (tempElem) tempElem.textContent = temp;
@@ -31,6 +31,8 @@ async function updateStates() {
         const humidityElem = document.querySelector('#humidity span');
         if (humidityElem) humidityElem.textContent = humidity;
 
+        const lampBtn = document.querySelector('#toggleLight');
+        if (lampBtn) lampBtn.textContent = lampState === 'ON' ? 'Вимкнути освітлення' : 'Увімкнути освітлення';
     } catch (e) {
         console.error('Помилка отримання Item:', e);
     }
@@ -39,14 +41,16 @@ async function updateStates() {
 // Керування світлом
 document.querySelector('#toggleLight').addEventListener('click', async () => {
     try {
-        const state = await getCurrentItemValue('myLightSwitch');
+        const state = await getCurrentItemValue('LabLampState');
         const newState = state === 'ON' ? 'OFF' : 'ON';
 
-        fetch(`${BASE_URL}/rest/items/myLightSwitch`, {
-            method: 'POST',
-            headers: {'Content-Type': 'text/plain'},
-            body: newState
-        });
+        // Відправляємо команду на LabLampCmd
+        await sendCommand('LabLampCmd', newState);
+
+        // Штучно оновлюємо LabLampState для емулятора
+        await sendCommand('LabLampState', newState);
+
+        updateStates();
     } catch (e) {
         console.error('Помилка керування світлом:', e);
     }
