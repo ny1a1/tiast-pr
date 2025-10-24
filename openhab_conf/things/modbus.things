@@ -1,0 +1,50 @@
+Bridge modbus:tcp:simulator [
+    host="modbus-simulator",
+    port=502,
+    connectTimeoutMillis=1000,
+    reconnectAfterMillis=6000
+] {
+
+    // Input Registers (30001-30004 -> адреси 0-3)
+    Thing poller labdeviceInput [
+        start=0,
+        length=4,
+        type="input",
+        refresh=1000,
+        unitId=1
+    ] {
+        Channels:
+            Type number  : numberInput0 [ start=0, valueType="uint16" ]
+            Type number  : numberInput1 [ start=1, valueType="uint16" ]
+            Type number  : numberInput2 [ start=2, valueType="uint16" ]
+            Type switch  : contact0     [ start=3, valueType="uint16" ]
+    }
+
+    // Holding Registers (40001-40003 -> адреси 0-2)
+    Thing poller labdeviceHolding [
+        start=0,
+        length=3,
+        type="holding",
+        refresh=1000,
+        unitId=1
+    ] {
+        Channels:
+            Type number : number0 [ start=0, valueType="uint16" ]
+            Type number : number1 [ start=1, valueType="uint16" ]
+            Type number : number2 [ start=2, valueType="uint16" ]
+    }
+
+    // Coils (00001-00003 -> адреси 0-2)
+    Thing poller labdeviceCoils [
+        start=0,
+        length=3,
+        type="coil",
+        refresh=1000,
+        unitId=1
+    ] {
+        Channels:
+            Type switch : switch0 [ start=0 ]
+            Type switch : switch1 [ start=1 ]
+            Type switch : switch2 [ start=2 ]
+    }
+}

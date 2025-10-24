@@ -1,0 +1,101 @@
+var Timer lampOffTimer = null
+
+rule "Log Modbus Errors0"
+when
+    Item Holding0 changed
+then
+    if (Holding0.state == NULL) {
+        logError("Modbus", "Holding0 is NULL — possible communication error")
+    }
+end
+
+rule "Log Modbus Errors"
+when
+    Member of ModbusGroup changed
+then
+    if (triggeringItem.state == NULL) {
+        logError("Modbus", triggeringItem.name + " is NULL — possible communication error")
+    }
+end
+
+rule "Heating Control Based on Temperature"
+when
+    Item ModbusTemperature changed or
+    Item ModbusTargetTemp changed
+then
+    if (ModbusTemperature.state instanceof Number && ModbusTargetTemp.state instanceof Number) {
+        val current = (ModbusTemperature.state as Number).floatValue
+        val target = (ModbusTargetTemp.state as Number).floatValue
+        if (current < target - 1) {
+            ModbusHeating.sendCommand(ON)
+        } else {
+            ModbusHeating.sendCommand(OFF)
+        }
+    }
+end
+
+rule "Fan Speed Control Based on Temperature Difference"
+when
+    Item ModbusTemperature changed or
+    Item ModbusTargetTemp changed
+then
+    if (ModbusTemperature.state instanceof Number && ModbusTargetTemp.state instanceof Number) {
+        val current = (ModbusTemperature.state as Number).floatValue
+        val target = (ModbusTargetTemp.state as Number).floatValue
+        val diff = Math::abs(current - target)
+
+        var speed = 0
+        if (diff > 5) {
+            speed = 100
+        } else if (diff > 3) {
+            speed = 75
+        } else if (diff > 1) {
+            speed = 50
+        } else if (diff > 0) {
+            speed = 25
+        }
+
+        ModbusFanSpeed.sendCommand(speed)
+    }
+end
+
+rule "Turn on lamp when motion and low light or low temp"
+when
+    Item ModbusMotion changed to ON
+then
+    if (
+        (ModbusLight.state instanceof Number && (ModbusLight.state as Number).intValue < 300) ||
+        (ModbusTemperature.state instanceof Number && (ModbusTemperature.state as Number).floatValue < 18)
+    ) {
+        ModbusLamp.sendCommand(ON)
+    }
+end
+
+rule "Turn off lamp after no motion"
+when
+    Item ModbusMotion changed to OFF
+then
+    if (lampOffTimer !== null) {
+        lampOffTimer.cancel
+    }
+    lampOffTimer = createTimer(now.plusSeconds(30), [ |
+        ModbusLamp.sendCommand(OFF)
+        lampOffTimer = null
+    ])
+end
+
+rule "Trigger alarm when temperature exceeds threshold"
+when
+    Item ModbusTemperature changed
+then
+    if (
+        ModbusTemperature.state instanceof Number &&
+        ModbusAlarmLimit.state instanceof Number &&
+        (ModbusTemperature.state as Number).floatValue > (ModbusAlarmLimit.state as Number).floatValue
+    ) {
+        ModbusLamp.sendCommand(ON)
+        ModbusFanSpeed.sendCommand(100)
+        ModbusAlarm.sendCommand(ON)
+        logWarn("Modbus", "ALARM: Temperature exceeded threshold! Current: " + ModbusTemperature.state + " °C")
+    }
+end

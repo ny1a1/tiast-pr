@@ -1,10 +1,32 @@
 sitemap demo label="My Home Automation" {
-  Frame label="Thermometer & Humidity" {
+  Frame label="Віртуальні сенсори" {
     Text item=VirtualThermometer icon="temperature"
     Text item=VirtualHumidity icon="humidity"
   }
-  Frame label="Thermometer & Humidity chart" {
+
+  Frame label="Графіки віртуальних сенсорів" {
     Chart item=VirtualThermometer period=h refresh=60000
     Chart item=VirtualHumidity period=h refresh=60000
+  }
+
+  Frame label="Modbus Сенсори" {
+    Text item=ModbusTemperature icon="temperature"
+    Text item=ModbusHumidity icon="humidity"
+    Text item=ModbusLight icon="light"
+    Text item=ModbusMotion icon="motion"
+  }
+
+  Frame label="Керування Modbus" {
+    Switch item=ModbusLamp icon="light"
+    Switch item=ModbusHeating icon="heating"
+    Switch item=ModbusAlarm icon="siren"
+    Slider item=ModbusTargetTemp icon="temperature"
+    Slider item=ModbusFanSpeed icon="fan"
+  }
+
+  Frame label="Графіки Modbus" {
+    Chart item=ModbusTemperature period=D refresh=60000
+    Chart item=ModbusHumidity period=D refresh=60000
+    Chart item=ModbusLight period=D refresh=60000
   }
 }

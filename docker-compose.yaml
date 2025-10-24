@@ -1,6 +1,7 @@
 services:
   openhab:
     image: "openhab/openhab:4.2.1"
+    container_name: openhab
     restart: always
     ports:
       - "8080:8080"
@@ -17,10 +18,18 @@ services:
 
   mosquitto:
     image: eclipse-mosquitto:2
+    container_name: mosquitto
     restart: "no"
     ports:
       - "1883:1883"
     volumes:
-      - ./mosquitto/config:/mosquitto/config
-      - ./mosquitto/data:/mosquitto/data
-      - ./mosquitto/log:/mosquitto/log
+      - "./mosquitto/config:/mosquitto/config"
+      - "./mosquitto/data:/mosquitto/data"
+      - "./mosquitto/log:/mosquitto/log"
+
+  modbus-simulator:
+    build: ./modbus-server
+    container_name: modbus-simulator
+    ports:
+      - "502:502"
+    restart: unless-stopped

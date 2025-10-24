@@ -5,5 +5,9 @@ Strategies {
   default = everyMinute
 }
 Items {
-  VirtualThermometer : strategy = everyMinute, everyChange
+  ModbusTemperature : strategy = everyMinute, everyChange
+  ModbusHumidity : strategy = everyMinute, everyChange
+  ModbusLight : strategy = everyMinute, everyChange
+  ModbusTargetTemp : strategy = everyMinute, everyChange
+  ModbusFanSpeed : strategy = everyMinute, everyChange
 }

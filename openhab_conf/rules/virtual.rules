@@ -27,12 +27,12 @@ then
     }
 end
 
-rule "Температура > 30°C - логування"
+rule "Temperature > 30°C - logging"
 when
-    Item VirtualTemperature changed
+    Item LabTemperature changed
 then
-    if (VirtualTemperature.state instanceof Number && (VirtualTemperature.state as Number) > 30) {
-        logInfo("ALERT", "Температура перевищила 30°C: " + VirtualTemperature.state)
+    if (LabTemperature.state instanceof Number && (LabTemperature.state as Number) > 30) {
+        logInfo("ALERT", "Температура перевищила 30°C: " + LabTemperature.state)
     }
 end
 
