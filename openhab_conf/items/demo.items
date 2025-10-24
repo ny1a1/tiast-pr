@@ -2,6 +2,7 @@ Number LabTemperature "Температура [%.1f °C]" { channel="mqtt:topic:
 Number LabHumidity "Вологість [%d %%]" { channel="mqtt:topic:myBroker:labDevice:humidityRaw" }
 Number LabTemperatureJSON "Температура JSON [%.1f °C]" { channel="mqtt:topic:myBroker:labDevice:temperatureJSON" }
 Number LabHumidityJSON "Вологість JSON [%d %%]" { channel="mqtt:topic:myBroker:labDevice:humidityJSON" }
+Number Temperature "Температура [%.1f °C]" { channel="http:url:tempSensor:temperature" }
 
 Switch LabMotion "Рух [MAP(onoff.map):%s]" { channel="mqtt:topic:myBroker:labDevice:motion", expire="10s,OFF" }
 Switch LabLampCmd "Лампа (команда)" { channel="mqtt:topic:myBroker:labDevice:lampCmd" }
