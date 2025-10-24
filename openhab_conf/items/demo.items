@@ -6,3 +6,4 @@ Number LabHumidityJSON "Вологість JSON [%d %%]" { channel="mqtt:topic:m
 Switch LabMotion "Рух [MAP(onoff.map):%s]" { channel="mqtt:topic:myBroker:labDevice:motion", expire="10s,OFF" }
 Switch LabLampCmd "Лампа (команда)" { channel="mqtt:topic:myBroker:labDevice:lampCmd" }
 Switch LabLampState "Стан лампи" { channel="mqtt:topic:myBroker:labDevice:lampState" }
+Switch VirtualLamp "Віртуальна лампа [MAP(onoff.map):%s]" <light>

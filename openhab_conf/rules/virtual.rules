@@ -59,3 +59,20 @@ then
         ]
     }
 end
+
+rule "VirtualLamp control real lamp"
+when
+    Item VirtualLamp received command
+then
+    LabLampCmd.sendCommand(receivedCommand)
+end
+
+rule "Turn on lamp when motion detected"
+when
+    Item LabMotion changed to ON
+then
+    if (LabLampCmd.state != ON) {
+        LabLampCmd.sendCommand(ON)
+        logInfo("motion", "Лампа увімкнена через рух")
+    }
+end

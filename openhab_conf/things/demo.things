@@ -1,4 +1,4 @@
-Bridge mqtt:broker:myBroker "MQTT Broker" [ host="mosquitto", port=1883 ]
+Bridge mqtt:broker:myBroker "MQTT Broker" [ host="host.docker.internal", port=1883 ]
 {
     Thing topic labDevice "Lab Device" {
         Channels:
