@@ -1,0 +1,28 @@
+// Input Registers (30001-30004 -> адреси 0-3)
+Number ModbusTemperature "Temperature [%.1f °C]" { channel="modbus:poller:simulator:labdeviceInput:numberInput0" }
+Number ModbusHumidity    "Humidity [%d %%]"      { channel="modbus:poller:simulator:labdeviceInput:numberInput1" }
+Number ModbusLight       "Light [%d lx]"         { channel="modbus:poller:simulator:labdeviceInput:numberInput2" }
+Contact ModbusMotion     "Motion Detected"       { channel="modbus:poller:simulator:labdeviceInput:contact0" }
+
+// Holding Registers (40001-40003 -> адреси 0-2)
+Number ModbusTargetTemp  "Target Temp [%.1f °C]" { channel="modbus:poller:simulator:labdeviceHolding:number0" }
+Number ModbusFanSpeed    "Fan Speed [%d %%]"     { channel="modbus:poller:simulator:labdeviceHolding:number1" }
+Number ModbusAlarmLimit  "Alarm Threshold"       { channel="modbus:poller:simulator:labdeviceHolding:number2" }
+
+// Coils (00001-00003 -> адреси 0-2)
+Switch ModbusLamp        "Lamp"                  { channel="modbus:poller:simulator:labdeviceCoils:switch0" }
+Switch ModbusHeating     "Heating"               { channel="modbus:poller:simulator:labdeviceCoils:switch1" }
+Switch ModbusAlarm       "Alarm"                 { channel="modbus:poller:simulator:labdeviceCoils:switch2" }
+
+// Група для логування та збереження
+Group ModbusGroup
+Number ModbusTemperature (ModbusGroup)
+Number ModbusHumidity (ModbusGroup)
+Number ModbusLight (ModbusGroup)
+Contact ModbusMotion (ModbusGroup)
+Switch ModbusLamp (ModbusGroup)
+Switch ModbusHeating (ModbusGroup)
+Switch ModbusAlarm (ModbusGroup)
+Number ModbusTargetTemp (ModbusGroup)
+Number ModbusFanSpeed (ModbusGroup)
+Number ModbusAlarmLimit (ModbusGroup)
