@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   openhab:
     image: "openhab/openhab:4.2.1"
@@ -15,11 +17,28 @@ services:
       EXTRA_JAVA_OPTS: "-Duser.timezone=Europe/Berlin"
       OPENHAB_HTTP_PORT: "8080"
       OPENHAB_HTTPS_PORT: "8443"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - simulator
+      - mosquitto
+      - modbus-simulator
+
+  simulator:
+    image: python:3.10-slim
+    container_name: simulator
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      - "./simulator:/app"
+    working_dir: /app
+    command: sh -c "pip install flask && python app.py"
 
   mosquitto:
     image: eclipse-mosquitto:2
     container_name: mosquitto
-    restart: "no"
+    restart: unless-stopped
     ports:
       - "1883:1883"
     volumes:
@@ -30,6 +49,6 @@ services:
   modbus-simulator:
     build: ./modbus-server
     container_name: modbus-simulator
+    restart: unless-stopped
     ports:
       - "502:502"
-    restart: unless-stopped

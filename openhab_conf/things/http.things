@@ -1,0 +1,8 @@
+Thing http:url:tempSensor "Temperature Sensor" [
+  baseURL="http://simulator:5000/api/temperature",
+  refresh=10000,
+  timeout=3000
+] {
+  Channels:
+    Type number : temperature "Temperature" [ stateTransformation="JSONPATH:$.value" ]
+}
