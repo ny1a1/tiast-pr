@@ -29,4 +29,9 @@ sitemap demo label="My Home Automation" {
     Chart item=ModbusHumidity period=D refresh=60000
     Chart item=ModbusLight period=D refresh=60000
   }
+
+  Frame label="Керування освітленням (віртуальне)" {
+    Switch item=VirtualLamp label="Лампа" icon="light"
+    Text item=VirtualLamp label="Стан лампи: [MAP(onoff.map):%s]" icon="status"
+  }
 }
