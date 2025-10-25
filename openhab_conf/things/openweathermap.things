@@ -1,0 +1,19 @@
+Bridge openweathermap:weather-api:000fa47fba "OpenWeatherMap Account" [
+  apikey="7da5455f8305ca6fdf899e054ea82791",
+  refreshInterval=10,
+  units="metric",
+  language="ua"
+] {
+  Thing weather-and-forecast:kyiv "Погода Київ" [
+    location="50.45,30.52",
+    forecastHours=0,
+    forecastDays=0
+  ]
+}
+
+Bridge mqtt:broker:myBroker "MQTT Broker" [ host="host.docker.internal", port=1883 ] {
+  Thing topic heatingRelay "Heating Relay" {
+    Channels:
+      Type switch : heating "Heating Control" [ commandTopic="home/heating/cmd", stateTopic="home/heating/state" ]
+  }
+}

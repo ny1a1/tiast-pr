@@ -1,0 +1,31 @@
+rule "Heating ON when outside temperature < 10°C"
+when
+    Item OutsideTemperature changed
+then
+    if (OutsideTemperature.state instanceof QuantityType<Temperature>) {
+        val temp = (OutsideTemperature.state as QuantityType<Temperature>).doubleValue
+        if (temp < 10) {
+            Heating.sendCommand(ON)
+            logInfo("weather", "Опалення увімкнено: зовнішня температура " + temp + "°C")
+        } else {
+            Heating.sendCommand(OFF)
+            logInfo("weather", "Опалення вимкнено: зовнішня температура " + temp + "°C")
+        }
+    }
+end
+
+rule "Heating ON when outside temperature < 10°C"
+when
+    Item OutsideTemperature changed
+then
+    if (OutsideTemperature.state instanceof QuantityType<Temperature>) {
+        val temp = (OutsideTemperature.state as QuantityType<Temperature>).doubleValue
+        if (temp < 10) {
+            Heating.sendCommand(ON)
+            logInfo("weather", "Опалення увімкнено: зовнішня температура " + temp + "°C")
+        } else {
+            Heating.sendCommand(OFF)
+            logInfo("weather", "Опалення вимкнено: зовнішня температура " + temp + "°C")
+        }
+    }
+end

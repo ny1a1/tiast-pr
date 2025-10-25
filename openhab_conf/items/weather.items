@@ -1,0 +1,2 @@
+Number:Temperature OutsideTemperature "Зовнішня температура [%.1f °C]" { channel="openweathermap:weather-and-forecast:kyiv:current#temperature" }
+Switch Heating "Опалення" <heating> { channel="mqtt:topic:myBroker:heatingRelay:heating" }
