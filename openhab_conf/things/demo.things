@@ -9,5 +9,8 @@ Bridge mqtt:broker:myBroker "MQTT Broker" [ host="host.docker.internal", port=18
             Type switch : motion "Motion" [ stateTopic="home/lab/motion" ]
             Type switch : lampCmd "Lamp Command" [ commandTopic="home/lab/lamp/cmd" ]
             Type switch : lampState "Lamp State" [ stateTopic="home/lab/lamp/state" ]
+
+            Type number : testTemp "Test Temperature" [ stateTopic="home/test/temp" ]
+
     }
 }

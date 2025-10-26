@@ -8,3 +8,7 @@ Switch LabMotion "Рух [MAP(onoff.map):%s]" { channel="mqtt:topic:myBroker:lab
 Switch LabLampCmd "Лампа (команда)" { channel="mqtt:topic:myBroker:labDevice:lampCmd" }
 Switch LabLampState "Стан лампи" { channel="mqtt:topic:myBroker:labDevice:lampState" }
 Switch VirtualLamp "Віртуальна лампа [MAP(onoff.map):%s]" <light>
+
+
+
+Number TestTemperature "Тестова температура [%.1f °C]" { channel="mqtt:topic:myBroker:labDevice:testTemp" }
