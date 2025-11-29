@@ -1,0 +1,1 @@
+String ThingSpeakSender "ThingSpeak Sender" { channel="http:url:thingspeak:command" }
