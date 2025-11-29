@@ -1,0 +1,22 @@
+rule "Send temperature to ThingSpeak"
+when
+    Item OutsideTemperature changed
+then
+    if (OutsideTemperature.state instanceof QuantityType<Temperature>) {
+        val temp = (OutsideTemperature.state as QuantityType<Temperature>).doubleValue
+        val apiKey = "1U7U65CP08D77SY5" // Write API Key
+        val url = "https://api.thingspeak.com/update?api_key=" + apiKey + "&field1=" + String.format("%.2f", temp)
+        sendHttpGetRequest(url)
+        logInfo("ThingSpeak", "Відправлено температуру " + temp + "°C на ThingSpeak: " + url)
+    }
+end
+
+// Демонстрація зміни графіку
+rule "Test update OutsideTemperature"
+when
+    Time cron "0/30 * * * * ?" // кожні 30 секунд
+then
+    val newTemp = 10 + (Math::random() * 10)
+    logInfo("TestUpdate", "Оновлено OutsideTemperature: " + newTemp)
+    OutsideTemperature.postUpdate(newTemp)
+end

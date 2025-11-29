@@ -1,0 +1,10 @@
+Thing http:url:thingspeak "ThingSpeak Sender" [
+  baseURL="https://api.thingspeak.com/update",
+  timeout=3000,
+  refresh=60,
+  commandMethod="GET",
+  commandHeaders="Content-Type=application/x-www-form-urlencoded"
+] {
+  Channels:
+    Type string : command "Send Command"
+}
