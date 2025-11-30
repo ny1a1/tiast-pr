@@ -1,0 +1,21 @@
+sitemap home label="Моніторинг"
+{
+    Frame label="Вітальня" {
+        Text item=LivingRoom_Temperature
+        Text item=LivingRoom_Humidity
+        Chart item=LivingRoom_Temperature period=h refresh=60
+        Chart item=LivingRoom_Temperature period=D refresh=60
+    }
+    Frame label="Спальня" {
+        Text item=Bedroom_Temperature
+        Text item=Bedroom_Humidity
+        Chart item=Bedroom_Temperature period=h refresh=60
+        Chart item=Bedroom_Temperature period=D refresh=60
+    }
+    Frame label="Кухня" {
+        Text item=Kitchen_Temperature
+        Text item=Kitchen_Humidity
+        Chart item=Kitchen_Temperature period=h refresh=60
+        Chart item=Kitchen_Temperature period=D refresh=60
+    }
+}

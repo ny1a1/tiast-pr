@@ -1,0 +1,8 @@
+Number LivingRoom_Temperature "Температура вітальні [%.1f °C]"
+Number LivingRoom_Humidity    "Вологість вітальні [%.1f %%]"
+
+Number Bedroom_Temperature    "Температура спальні [%.1f °C]"
+Number Bedroom_Humidity       "Вологість спальні [%.1f %%]"
+
+Number Kitchen_Temperature    "Температура кухні [%.1f °C]"
+Number Kitchen_Humidity       "Вологість кухні [%.1f %%]"
