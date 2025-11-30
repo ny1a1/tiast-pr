@@ -1,0 +1,71 @@
+rule "Simulate random temperatures"
+when
+    Time cron "0/30 * * * * ?" // 30 секунд
+then
+    val living = 18 + (Math::random() * 5)   // 18–23 °C
+    val bedroom = 16 + (Math::random() * 6)  // 16–22 °C
+    val kitchen = 19 + (Math::random() * 4)  // 19–23 °C
+
+    LivingRoom_Temperature.postUpdate(living)
+    Bedroom_Temperature.postUpdate(bedroom)
+    Kitchen_Temperature.postUpdate(kitchen)
+
+    logInfo("simulation", "Оновлено: Вітальня=" + living + " Спальня=" + bedroom + " Кухня=" + kitchen)
+end
+
+rule "Simulate random humidity"
+when
+    Time cron "0 0/5 * * * ?" // 5 хвилин
+then
+    val livingHum  = 40 + (Math::random() * 20)   // 40–60 %
+    val bedroomHum = 35 + (Math::random() * 25)   // 35–60 %
+    val kitchenHum = 45 + (Math::random() * 15)   // 45–60 %
+
+    LivingRoom_Humidity.postUpdate(livingHum)
+    Bedroom_Humidity.postUpdate(bedroomHum)
+    Kitchen_Humidity.postUpdate(kitchenHum)
+
+    logInfo("simulation", "Оновлено вологість: Вітальня=" + livingHum + "% Спальня=" + bedroomHum + "% Кухня=" + kitchenHum + "%")
+end
+
+rule "Average temperature"
+when
+    Time cron "0 0/5 * * * ?" // 5 хвилин
+then
+    val avg = (LivingRoom_Temperature.state as Number +
+               Bedroom_Temperature.state as Number +
+               Kitchen_Temperature.state as Number) / 3
+    logInfo("rrd4j", "Середня температура: " + avg)
+end
+
+rule "Min/Max temperature"
+when
+    Time cron "0 0/10 * * * ?" // 10 хвилин
+then
+    val temps = newArrayList(
+        LivingRoom_Temperature.state as Number,
+        Bedroom_Temperature.state as Number,
+        Kitchen_Temperature.state as Number
+    )
+    val min = temps.min
+    val max = temps.max
+    logInfo("rrd4j", "Мін: " + min + " Макс: " + max)
+end
+
+rule "Detect anomaly"
+when
+    Item LivingRoom_Temperature changed or
+    Item Bedroom_Temperature changed or
+    Item Kitchen_Temperature changed
+then
+    val temps = newArrayList(
+        LivingRoom_Temperature.state as Number,
+        Bedroom_Temperature.state as Number,
+        Kitchen_Temperature.state as Number
+    )
+    val min = temps.min
+    val max = temps.max
+    if ((max - min) > 5) {
+        logWarn("rrd4j", "Аномалія: різниця температур > 5°C")
+    }
+end

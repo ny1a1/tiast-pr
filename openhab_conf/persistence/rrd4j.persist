@@ -1,0 +1,25 @@
+Strategies {
+  everyMinute : "0 * * * * ?"
+  everyHour   : "0 0 * * * ?"
+  everyDay    : "0 0 0 * * ?"
+  default = everyMinute
+}
+
+Items {
+  // Modbus
+  ModbusTemperature : strategy = everyMinute, everyChange, restoreOnStartup
+  ModbusHumidity    : strategy = everyMinute, everyChange, restoreOnStartup
+  ModbusLight       : strategy = everyMinute, everyChange, restoreOnStartup
+  ModbusTargetTemp  : strategy = everyMinute, everyChange, restoreOnStartup
+  ModbusFanSpeed    : strategy = everyMinute, everyChange, restoreOnStartup
+
+  // Віртуальні кімнати
+  LivingRoom_Temperature : strategy = everyMinute, everyChange, restoreOnStartup
+  LivingRoom_Humidity    : strategy = everyMinute, everyChange, restoreOnStartup
+
+  Bedroom_Temperature    : strategy = everyMinute, everyChange, restoreOnStartup
+  Bedroom_Humidity       : strategy = everyMinute, everyChange, restoreOnStartup
+
+  Kitchen_Temperature    : strategy = everyMinute, everyChange, restoreOnStartup
+  Kitchen_Humidity       : strategy = everyMinute, everyChange, restoreOnStartup
+}
