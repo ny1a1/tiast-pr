@@ -1,0 +1,17 @@
+Bridge mqtt:broker:myBroker [ host="localhost", port=1883, secure=false ]
+{
+  Thing topic TemperatureSensor {
+    Channels:
+      Type number : state "Температура" [ stateTopic="warehouse/metrics/temperature" ]
+  }
+
+  Thing topic MotionSensor {
+    Channels:
+      Type switch : state "Рух" [ stateTopic="warehouse/metrics/motion" ]
+  }
+
+  Thing topic VentilationRelay {
+    Channels:
+      Type switch : command "Вентиляція" [ commandTopic="warehouse/cmd/ventilation/set", on="ON", off="OFF" ]
+  }
+}
