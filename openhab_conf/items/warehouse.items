@@ -1,0 +1,4 @@
+Number Temperature "Температура [%.1f °C]" { channel="mqtt:topic:myBroker:TemperatureSensor:temperature" }
+Switch MotionSensor "Рух" <motion> { channel="mqtt:topic:myBroker:MotionSensor:state" }
+Switch VentilationRelay "Вентиляція" <fan> { channel="mqtt:topic:myBroker:VentilationRelay:command" }
+Number TempThreshold "Поріг температури [%.1f °C]" <settings>

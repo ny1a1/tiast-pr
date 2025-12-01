@@ -1,0 +1,40 @@
+rule "Автоматичне керування вентиляцією"
+when
+    Item Temperature changed
+then
+    val Number temp = Temperature.state as Number
+    val Number threshold = TempThreshold.state as Number
+    if (temp > threshold) {
+        VentilationRelay.sendCommand(ON)
+    } else {
+        VentilationRelay.sendCommand(OFF)
+    }
+end
+
+rule "Рух у складі"
+when
+    Item MotionSensor changed to ON
+then
+    logInfo("SECURITY", "Рух зафіксовано у складі!")
+end
+
+rule "Send random test data (Temperature + Light + Motion) to ThingSpeak"
+when
+    Time cron "0/30 * * * * ?" // 30 секунд
+then
+    val String apiKey = "7LXQ6JRQ88NQA5OE"
+
+    val Number temperature = (20 + (Math::random * 15)) // 20–35 °C
+    val Number light = (100 + (Math::random * 400))    // 100–500 lux
+    val Number motion = if (Math::random > 0.5) 1 else 0 // 0 - немає 1 - є
+
+    val Number ventilation = if (VentilationRelay.state == ON) 1 else 0
+
+    val String url = "http://api.thingspeak.com/update?api_key=" + apiKey +
+                     "&field1=" + temperature.toString +
+                     "&field2=" + motion.toString +
+                     "&field3=" + light.toString +
+                     "&field4=" + ventilation.toString
+
+    sendHttpGetRequest(url)
+end
