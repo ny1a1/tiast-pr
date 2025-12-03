@@ -1,0 +1,9 @@
+Number GreenhouseTemperature "Температура теплиці [%.1f °C]" { channel="mqtt:topic:myBroker:GreenhouseTemperatureSensor:state" }
+Number GreenhouseHumidity "Вологість теплиці [%.1f %%]" { channel="mqtt:topic:myBroker:GreenhouseHumiditySensor:state" }
+Number GreenhouseLight "Освітленість теплиці [%d lux]" { channel="mqtt:topic:myBroker:GreenhouseLightSensor:state" }
+Number GreenhouseCO2 "CO2 теплиці [%.0f ppm]" { channel="mqtt:topic:myBroker:GreenhouseCO2Sensor:state" }
+Switch GreenhouseVentilation "Вентиляція теплиці" <fan> { channel="mqtt:topic:myBroker:GreenhouseVentilationRelay:command" }
+
+Number PredictedTemperature "Прогнозована температура [%.1f °C]"
+Number PredictedHumidity "Прогнозована вологість [%.1f %%]"
+String AiRecommendation "AI рекомендація [%s]" <text>

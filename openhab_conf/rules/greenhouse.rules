@@ -1,0 +1,18 @@
+rule "Віртуальні сенсори теплиці"
+when
+    Time cron "0 */1 * * * ?" // кожну хвилину
+then
+    val rand = new java.util.Random
+
+    val temp = 18 + rand.nextInt(13) // 18–30
+    val hum  = 40 + rand.nextInt(41) // 40–80
+    val light = 100 + rand.nextInt(901) // 100–1000
+    val co2 = 400 + rand.nextInt(801) // 400–1200
+
+    GreenhouseTemperature.postUpdate(temp)
+    GreenhouseHumidity.postUpdate(hum)
+    GreenhouseLight.postUpdate(light)
+    GreenhouseCO2.postUpdate(co2)
+
+    logInfo("Sensors", "Updated greenhouse sensors: Temp=" + temp + " Hum=" + hum + " Light=" + light + " CO2=" + co2)
+end
