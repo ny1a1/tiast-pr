@@ -1,0 +1,17 @@
+sitemap greenhouse label="Моніторинг теплиці" {
+    Frame label="Сенсори" {
+        Text item=GreenhouseTemperature label="Температура [%.1f °C]"
+        Text item=GreenhouseHumidity    label="Вологість [%.1f %%]"
+        Text item=GreenhouseLight       label="Освітленість [%d lux]"
+        Text item=GreenhouseCO2         label="CO₂ [%.0f ppm]"
+    }
+
+    Frame label="Керування" {
+        Switch item=GreenhouseVentilation label="Вентиляція"
+    }
+
+    Frame label="AI Прогнози" {
+        Text item=PredictedTemperature label="Прогнозована температура [%.1f °C]"
+        Text item=PredictedHumidity    label="Прогнозована вологість [%.1f %%]"
+    }
+}

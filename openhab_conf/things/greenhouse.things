@@ -1,0 +1,26 @@
+Bridge mqtt:broker:myBroker [ host="localhost", port=1883, secure=false ] {
+    Thing topic GreenhouseTemperatureSensor "Temperature Greenhouse" {
+        Channels:
+            Type number : state "Temperature" [ stateTopic="greenhouse/temperature" ]
+    }
+
+    Thing topic GreenhouseHumiditySensor "Humidity Greenhouse" {
+        Channels:
+            Type number : state "Humidity" [ stateTopic="greenhouse/humidity" ]
+    }
+
+    Thing topic GreenhouseLightSensor "Light Greenhouse" {
+        Channels:
+            Type number : state "Light" [ stateTopic="greenhouse/light" ]
+    }
+
+    Thing topic GreenhouseCO2Sensor "CO2 Greenhouse" {
+        Channels:
+            Type number : state "CO2" [ stateTopic="greenhouse/co2" ]
+    }
+
+    Thing topic GreenhouseVentilationRelay "Ventilation Greenhouse" {
+        Channels:
+            Type switch : command "Ventilation" [ commandTopic="greenhouse/ventilation/set" ]
+    }
+}

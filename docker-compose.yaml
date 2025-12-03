@@ -52,3 +52,13 @@ services:
     restart: unless-stopped
     ports:
       - "502:502"
+
+  mistral-forecast:
+    build: ./forecast
+    container_name: mistral-api
+    restart: unless-stopped
+    environment:
+      - OPENHAB_TOKEN=oh.mistralscript.cJ9k767gKXzXZconUPKjOpxGwYNB5cPnFXG77VIuYmevQbT08vyXtX3OpGOUxQ2bQf4USoEdh4nFtls0uhtYkA
+      - MISTRAL_TOKEN=iUV6aOIyWy6v38Ghsur2Vw0hdknVyHpk
+    depends_on:
+      - openhab
