@@ -1,0 +1,60 @@
+val Number moistureThreshold = 30 // Поріг вологості %
+
+rule "Автоматичний полив рослин"
+when
+    Item SoilMoisture changed
+then
+    val current = SoilMoisture.state as Number
+
+    if (WaterPump.state == ON) {
+        WateringStatus.postUpdate("Насос працює. Поточна вологість: " + current + "%")
+        return;
+    }
+
+    if (current < moistureThreshold) {
+
+        WateringStatus.postUpdate("Вологість низька (" + current + "%). Запускаю полив.")
+        WaterPump.sendCommand(ON)
+
+        Thread::sleep(5000)
+
+        WaterPump.sendCommand(OFF)
+
+        val Number updatedMoisture = if (current < moistureThreshold) moistureThreshold else current
+        SoilMoisture.postUpdate(updatedMoisture)
+
+        WateringStatus.postUpdate("Полив завершено. Поточна вологість: " + updatedMoisture + "%")
+
+        logInfo("watering", "Збережено значення вологості: " + updatedMoisture)
+    }
+    else {
+        WateringStatus.postUpdate("Вологість у нормі (" + current + "%). Полив не потрібен.")
+    }
+end
+
+
+rule "Автоматичне вимкнення насоса при зависанні"
+when
+    Time cron "0 */1 * * * ?" // кожну хвилину
+then
+    val current = SoilMoisture.state as Number
+
+    // Якщо насос увімкнений і вологість все ще нижче порогу
+    if (WaterPump.state == ON && current < moistureThreshold) {
+        WaterPump.sendCommand(OFF)
+
+        SoilMoisture.postUpdate(moistureThreshold)
+
+        WateringStatus.postUpdate("Автоматично вимкнено насос (захист). Поточна вологість: " + moistureThreshold + "%")
+
+        logInfo("watering", "Автоматично вимкнено насос через низьку вологість.")
+    }
+end
+
+rule "Імітація вологості ґрунту"
+when
+    Time cron "0 */5 * * * ?" // кожні 5 хвилин
+then
+    val Number fakeMoisture = (Math::random * 100).intValue
+    SoilMoisture.postUpdate(fakeMoisture)
+end
