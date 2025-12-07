@@ -1,0 +1,6 @@
+sitemap plantwatering label="Система поливу"
+{
+    Text item=SoilMoisture
+    Switch item=WaterPump
+    Text item=WateringStatus
+}

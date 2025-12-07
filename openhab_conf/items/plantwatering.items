@@ -1,0 +1,3 @@
+Number SoilMoisture "Вологість ґрунту [%.0f %%]"
+Switch WaterPump "Насос поливу"
+String WateringStatus "Статус системи"

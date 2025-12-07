@@ -29,4 +29,6 @@ Items {
     GreenhouseLight       : strategy = everyMinute, everyChange, restoreOnStartup
     GreenhouseCO2         : strategy = everyMinute, everyChange, restoreOnStartup
     GreenhouseVentilation : strategy = everyChange, restoreOnStartup
+
+    SoilMoisture : strategy = everyChange, everyMinute
 }
