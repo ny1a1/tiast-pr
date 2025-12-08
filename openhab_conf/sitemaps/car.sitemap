@@ -1,0 +1,13 @@
+sitemap car label="Моніторинг авто"
+{
+    Frame label="Параметри авто" {
+        Text item=CarTemperature
+        Text item=CarSpeed
+        Text item=FuelLevel
+        Text item=CarLocation
+    }
+
+    Frame label="Статус" {
+        Text item=CarWarning
+    }
+}

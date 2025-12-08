@@ -1,0 +1,22 @@
+rule "Попередження про низький рівень пального"
+when
+    Item FuelLevel changed
+then
+    val fuel = FuelLevel.state as Number
+
+    if (fuel < 15) {
+        CarWarning.postUpdate("Потрібна заправка! Рівень пального: " + fuel + "%")
+    } else {
+        CarWarning.postUpdate("Рівень пального в нормі: " + fuel + "%")
+    }
+end
+
+rule "Симуляція параметрів авто"
+when
+    Time cron "0/10 * * * * ?" // кожні 10 секунд
+then
+    CarTemperature.postUpdate(70 + (Math::random * 40)) // 70–110°C
+    CarSpeed.postUpdate((Math::random * 120).intValue) // 0–120 км/год
+    FuelLevel.postUpdate(5 + (Math::random * 95).intValue) // 5–100%
+    CarLocation.postUpdate("GPS: " + (50 + Math::random) + ", " + (30 + Math::random))
+end
