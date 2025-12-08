@@ -1,0 +1,5 @@
+Number CarTemperature "Температура двигуна [%.1f °C]"
+Number CarSpeed "Швидкість [%.0f км/год]"
+Number FuelLevel "Рівень пального [%.0f %%]"
+String CarLocation "Місцезнаходження"
+String CarWarning "Статус системи"
