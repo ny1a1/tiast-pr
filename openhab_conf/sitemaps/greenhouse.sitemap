@@ -1,4 +1,4 @@
-sitemap greenhouse label="Моніторинг теплиці" {
+sitemap greenhouse label="Greenhouse monitoring" {
     Frame label="Сенсори" {
         Text item=GreenhouseTemperature label="Температура [%.1f °C]"
         Text item=GreenhouseHumidity    label="Вологість [%.1f %%]"

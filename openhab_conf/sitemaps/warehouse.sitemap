@@ -1,4 +1,4 @@
-sitemap warehouse label="Моніторинг складу"
+sitemap warehouse label="Warehouse monitoring"
 {
     Frame label="Сенсори"
     {

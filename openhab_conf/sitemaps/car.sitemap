@@ -1,4 +1,4 @@
-sitemap car label="Моніторинг авто"
+sitemap car label="Car monitoring"
 {
     Frame label="Параметри авто" {
         Text item=CarTemperature

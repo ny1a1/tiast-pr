@@ -1,4 +1,4 @@
-sitemap home label="Моніторинг"
+sitemap home label="Home"
 {
     Frame label="Вітальня" {
         Text item=LivingRoom_Temperature

@@ -1,4 +1,4 @@
-sitemap plantwatering label="Система поливу"
+sitemap plantwatering label="Plant Watering"
 {
     Text item=SoilMoisture
     Switch item=WaterPump
